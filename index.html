@@ -13,36 +13,36 @@
     </nav>
     <div class="accordion" id="accordionExample">
         <div class="card">
-          <div class="card-header" id="headingOne">
+          <div class="card-header text-center" id="headingOne">
             <h2 class="mb-0">
-              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <button id="accordion-button" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 Add Dino
               </button>
             </h2>
           </div>
       
-          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div id="collapseOne" class="text-center collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-                <form>
+                <form id="dino-form">
                     <div class="form-group">
                       <label for="formGroupExampleInput">Dino Name</label>
-                      <input type="text" class="form-control" id="dino-name" placeholder="Example input placeholder">
+                      <input type="text" class="form-control" id="dino-name">
                     </div>
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Dino Type</label>
-                      <input type="text" class="form-control" id="dino-type" placeholder="Another input placeholder">
+                      <input type="text" class="form-control" id="dino-type">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Dino Age</label>
-                        <input type="text" class="form-control" id="dino-age" placeholder="Example input placeholder">
+                        <input type="text" class="form-control" id="dino-age">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Owner</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input placeholder">
+                        <input type="text" class="form-control" id="dino-owner">
                     </div>
                     <div class="form-group">
-                        <label for="formGroupExampleInput">Dino Pic</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input placeholder">
+                        <label for="formGroupExampleInput">Dino Image</label>
+                        <input type="text" class="form-control" id="dino-pic">
                     </div>
                     <button id="btn-submit" type="button" class="btn btn-dark">Add Your Dino!</button>
                 </form>
