@@ -6,7 +6,7 @@ const dinos = [
         age: 100,
         owner: 'Zoe',
         adventures: [],
-        health: 100,
+        health: 99,
         imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/61vkPO-v8fL._AC_SL1200_.jpg'
     },
     {
@@ -16,7 +16,7 @@ const dinos = [
         age: 150,
         owner: 'Zoe',
         adventures: [],
-        health: 100,
+        health: 1,
         imageUrl: 'https://www.factsjustforkids.com/images/brontosaurus-excelsus.png'
     },
     {
@@ -26,7 +26,7 @@ const dinos = [
         age: 75,
         owner: 'David',
         adventures: [],
-        health: 100,
+        health: 45,
         imageUrl: 'https://static.turbosquid.com/Preview/2016/08/15__05_40_23/square1.pngCAADFB60-670E-4F7D-A482-9CF6DE52E3A8Zoom.jpg'
     },
     {
@@ -86,10 +86,10 @@ const viewSingleDino = (e) => {
     domString +=        '<div class="col-6 card-separate">'
     domString +=            '<div class="card">';
     domString +=                `<h2>${selectedDino.name}</h2>`;
-    domString +=                `<p>${selectedDino.type}</p>`;
-    domString +=                `<p>${selectedDino.age}</p>`;
-    domString +=                `<p>${selectedDino.owner}</p>`;
-    domString +=                `<p>${selectedDino.health}</p>`;
+    domString +=                `<p>Type: ${selectedDino.type}</p>`;
+    domString +=                `<p>Age: ${selectedDino.age}</p>`;
+    domString +=                `<p>Owner: ${selectedDino.owner}</p>`;
+    domString +=                `<p>Health: ${selectedDino.health}</p>`;
     domString +=            '</div>';
     domString +=        '</div>';
     domString +=    '</div>';
@@ -106,12 +106,28 @@ const singleDinoAddEvents = () => {
     }
 }
 
+const dinoHealth = (e) => {
+    const dinoId = e.target.closest(".card").id;
+    const dinoPosition = dinos.findIndex((p) => p.id === dinoId);
+    if (dinos[dinoPosition].health < 100) {
+        dinos[dinoPosition].health += 1;
+        printDinos(dinos);
+    }
+}
+
+const petEvents = () => {
+    const dinoPetImages = document.getElementsByClassName("dino-photo");
+    for (let i = 0; i < dinoPetImages.length; i++) {
+        dinoPetImages[i].addEventListener("mouseleave", dinoHealth);
+    }
+}
+
 const printDinos = (dinoArr) => {
     let domString = "";
     for (let i = 0; i < dinoArr.length; i++) {
         domString += '<div class="col-4 card-separate">';
         domString +=   `<div id="${dinoArr[i].id}" class="card">`;
-        domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img card-img-top" alt="Card image cap">`;
+        domString +=       `<img src="${dinoArr[i].imageUrl}" class="img-fluid card-img-top dino-photo" alt="Card image cap">`;
         domString +=       '<div class="card-body">';
         domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
         domString +=           `<p class="card-text">Health: ${dinoArr[i].health}</p>`;
@@ -122,6 +138,7 @@ const printDinos = (dinoArr) => {
     }
     printToDom("kennel", domString);
     singleDinoAddEvents();
+    petEvents();
 }
 
 const newDino = (e) => {
