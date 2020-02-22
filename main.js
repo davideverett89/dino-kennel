@@ -61,9 +61,6 @@ const dinos = [
     }
 ];
 
-
-// const dinos = [];
-
 const printToDom = (divId, textToPrint) => {
     const selectedDiv = document.getElementById(divId);
     selectedDiv.innerHTML = textToPrint;
@@ -74,9 +71,25 @@ const closeSingleViewEvent = () => {
     printDinos(dinos);
 }
 
-const viewSingleDino = () => {
+const viewSingleDino = (e) => {
+    const dinoId = e.target.closest(".card").id;
+    const selectedDino = dinos.find((x) => dinoId === x.id);
     let domString = "";
     domString += '<button id="close-single-view" class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
+    domString += '<div class="container">';
+    domString +=    '<div class="row">';
+    domString +=        '<div class="col-6">';
+    domString +=            `<img class="img-fluid" src="${selectedDino.imageUrl}" alt="whatever">`;
+    domString +=        '</div>';
+    domString +=        '<div class="col-6">';
+    domString +=            `<h2>${selectedDino.name}</h2>`;
+    domString +=            `<p>${selectedDino.type}</p>`;
+    domString +=            `<p>${selectedDino.age}</p>`;
+    domString +=            `<p>${selectedDino.owner}</p>`;
+    domString +=            `<p>${selectedDino.health}</p>`;
+    domString +=        '</div>';
+    domString +=    '</div>';
+    domString += '</div>';
     printToDom("kennel", "");
     printToDom("single-view", domString);
     document.getElementById("close-single-view").addEventListener("click", closeSingleViewEvent);
@@ -93,12 +106,12 @@ const printDinos = (dinoArr) => {
     let domString = "";
     for (let i = 0; i < dinoArr.length; i++) {
         domString += '<div class="col-4 card-separate">';
-        domString +=   '<div class="card">';
+        domString +=   `<div id="${dinoArr[i].id}" class="card">`;
         domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img card-img-top" alt="Card image cap">`;
         domString +=       '<div class="card-body">';
         domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
         domString +=           `<p class="card-text">Health: ${dinoArr[i].health}</p>`;
-        domString +=            `<button id="${dinoArr[i].id}" class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>`;
+        domString +=            '<button class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
         domString +=       '</div>';
         domString +=   '</div>';
         domString += '</div>';

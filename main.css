@@ -11,12 +11,16 @@ body {
     background-color: white;
 }
 
+#kennel {
+    margin: 15px;
+}
+
 .card-separate {
-    margin: 2px;
+    margin: 15px 0;
 }
 
 .my-img {
-    margin: 0 auto;
+    margin: 15px auto;
     height: 300px;
     width: 300px;
 }
