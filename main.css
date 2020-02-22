@@ -11,7 +11,12 @@ body {
     background-color: white;
 }
 
-img {
+.card-separate {
+    margin: 2px;
+}
+
+.my-img {
+    margin: 0 auto;
     height: 300px;
     width: 300px;
 }
