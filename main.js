@@ -75,18 +75,22 @@ const viewSingleDino = (e) => {
     const dinoId = e.target.closest(".card").id;
     const selectedDino = dinos.find((x) => dinoId === x.id);
     let domString = "";
-    domString += '<button id="close-single-view" class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
+    domString += '<button id="close-single-view" class="btn btn-outline-light"><i class="fas fa-eye"></i></button>';
     domString += '<div class="container">';
     domString +=    '<div class="row">';
-    domString +=        '<div class="col-6">';
-    domString +=            `<img class="img-fluid" src="${selectedDino.imageUrl}" alt="whatever">`;
-    domString +=        '</div>';
-    domString +=        '<div class="col-6">';
-    domString +=            `<h2>${selectedDino.name}</h2>`;
-    domString +=            `<p>${selectedDino.type}</p>`;
-    domString +=            `<p>${selectedDino.age}</p>`;
-    domString +=            `<p>${selectedDino.owner}</p>`;
-    domString +=            `<p>${selectedDino.health}</p>`;
+    domString +=        '<div class="col-6 card-separate">'
+    domString +=            '<div class="card">';
+    domString +=                `<img class="my-img" src="${selectedDino.imageUrl}" alt="whatever">`;
+    domString +=            '</div>';
+    domString +=        '</div>'
+    domString +=        '<div class="col-6 card-separate">'
+    domString +=            '<div class="card">';
+    domString +=                `<h2>${selectedDino.name}</h2>`;
+    domString +=                `<p>${selectedDino.type}</p>`;
+    domString +=                `<p>${selectedDino.age}</p>`;
+    domString +=                `<p>${selectedDino.owner}</p>`;
+    domString +=                `<p>${selectedDino.health}</p>`;
+    domString +=            '</div>';
     domString +=        '</div>';
     domString +=    '</div>';
     domString += '</div>';

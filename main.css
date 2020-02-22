@@ -7,6 +7,10 @@ body {
     background-color: gray;
 }
 
+h2 {
+    text-decoration: underline;
+}
+
 #headingOne {
     background-color: white;
 }
