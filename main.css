@@ -24,6 +24,7 @@ h2 {
 }
 
 .my-img {
+    border-radius: 5px;
     margin: 15px auto;
     height: 300px;
     width: 300px;
