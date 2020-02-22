@@ -64,31 +64,8 @@
 
 const dinos = [];
 
-const formCollapse = () => {
-    document.getElementById("collapseOne").classList.remove("show");
-    document.getElementById("collapseOne").classList.toggle("collapsed");
-    document.getElementById("accordion-button").setAttribute("aria-expanded", "false");
-}
-
-// const isEmpty = (x) => /^\s*$/.test(x);
-
-// const newDinoObject = (id, name, type, age, owner, imageUrl) => {
-//     let newDino = {
-//         id,
-//         name,
-//         type,
-//         age,
-//         owner,
-//         adventures: [],
-//         health: 100,
-//         imageUrl,
-//     }
-//     dinos.push(newDino);
-//     document.getElementById("dino-form").reset();
-//     console.log(dinos);
-// }
-
-const newDino = () => {
+const newDino = (e) => {
+    e.preventDefault();
     const brandNewDino = {
         id: `dino${dinos.length + 1}`,
         name: document.getElementById("dino-name").value,
@@ -101,6 +78,7 @@ const newDino = () => {
     }
     dinos.push(brandNewDino);
     document.getElementById("dino-form").reset();
+    document.getElementById("collapseOne").classList.remove("show");
     console.log(dinos);
 }
 
