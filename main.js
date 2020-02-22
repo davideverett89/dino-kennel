@@ -122,16 +122,31 @@ const petEvents = () => {
     }
 }
 
+const deleteDinoEvent = (e) => {
+    const dinoId = e.target.closest(".card").id;
+    const dinoPosition = dinos.findIndex((x) => x.id === dinoId);
+    dinos.splice(dinoPosition, 1);
+    printDinos(dinos);
+}
+
+const deleteEvents = () => {
+    const dinoDeleteButtons = document.getElementsByClassName("delete-dino");
+    for (let i = 0; i < dinoDeleteButtons.length; i++) {
+        dinoDeleteButtons[i].addEventListener("click", deleteDinoEvent);
+    }
+}
+
 const printDinos = (dinoArr) => {
     let domString = "";
     for (let i = 0; i < dinoArr.length; i++) {
         domString += '<div class="col-4 card-separate">';
         domString +=   `<div id="${dinoArr[i].id}" class="card">`;
-        domString +=       `<img src="${dinoArr[i].imageUrl}" class="img-fluid card-img-top dino-photo" alt="Card image cap">`;
+        domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img img-fluid card-img-top dino-photo" alt="Card image cap">`;
         domString +=       '<div class="card-body">';
         domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
         domString +=           `<p class="card-text">Health: ${dinoArr[i].health}</p>`;
         domString +=            '<button class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
+        domString +=            '<button id="close-single-view" class="btn btn-outline-danger delete-dino"><i class="fas fa-trash-alt"></i></button>';
         domString +=       '</div>';
         domString +=   '</div>';
         domString += '</div>';
@@ -139,6 +154,7 @@ const printDinos = (dinoArr) => {
     printToDom("kennel", domString);
     singleDinoAddEvents();
     petEvents();
+    deleteEvents();
 }
 
 const newDino = (e) => {
