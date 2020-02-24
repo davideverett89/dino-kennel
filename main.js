@@ -68,7 +68,7 @@ const printToDom = (divId, textToPrint) => {
 
 const closeSingleViewEvent = () => {
     printToDom("single-view", "");
-    printDinos(dinos);
+    buildAllDinos(dinos);
 }
 
 const viewSingleDino = (e) => {
@@ -96,7 +96,7 @@ const viewSingleDino = (e) => {
     domString +=        '</div>';
     domString +=    '</div>';
     domString += '</div>';
-    printToDom("kennel", "");
+    clearAllDinos();
     printToDom("single-view", domString);
     document.getElementById("close-single-view").addEventListener("click", closeSingleViewEvent);
 }
@@ -113,7 +113,7 @@ const dinoHealth = (e) => {
     const dinoPosition = dinos.findIndex((p) => p.id === dinoId);
     if (dinos[dinoPosition].health < 100) {
         dinos[dinoPosition].health += 1;
-        printDinos(dinos);
+        buildAllDinos(dinos);
     }
 }
 
@@ -128,7 +128,7 @@ const deleteDinoEvent = (e) => {
     const dinoId = e.target.closest(".card").id;
     const dinoPosition = dinos.findIndex((x) => x.id === dinoId);
     dinos.splice(dinoPosition, 1);
-    printDinos(dinos);
+    buildAllDinos(dinos);
 }
 
 const deleteEvents = () => {
@@ -143,10 +143,10 @@ const feedDino = (e) => {
     const dinoPosition = dinos.findIndex((x) => x.id === dinoId);
     if (dinos[dinoPosition].health < 90) {
         dinos[dinoPosition].health += 10;
-        printDinos(dinos);
+        buildAllDinos(dinos);
     } else if (dinos[dinoPosition].health > 89 && dinos[dinoPosition].health < 100) {
         dinos[dinoPosition].health = 100;
-        printDinos(dinos);
+        buildAllDinos(dinos);
     }
 }
 
@@ -155,6 +155,31 @@ const feedEvents = () => {
     for (let i = 0; i < feedDinoButtons.length; i++) {
         feedDinoButtons[i].addEventListener("click", feedDino);
     }
+}
+
+const hospitalDomStringBuilder = (dinoArr) => {
+    let domString = "";
+    for (let i = 0; i < dinoArr.length; i++) {
+        domString += '<div class="col-4 card-separate">';
+        domString +=   `<div id="${dinoArr[i].id}" class="card">`;
+        domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img img-fluid card-img-top dino-photo" alt="Card image cap">`;
+        domString +=       '<div class="card-body">';
+        domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
+        domString +=           `<div class="progress">`;
+        domString +=                `<div class="progress-bar bg-danger" role="progressbar" style="width: ${dinoArr[i].health}%" aria-valuenow="${dinoArr[i].health}" aria-valuemin="0" aria-valuemax="100"></div>`;
+        domString +=            `</div>`;
+        domString +=            '<button class="btn btn-outline-warning feed-dino"><i class="fas fa-hamburger"></i></button>';
+        domString +=            '<button class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
+        domString +=            '<button class="btn btn-outline-danger delete-dino"><i class="fas fa-trash-alt"></i></button>';
+        domString +=       '</div>';
+        domString +=   '</div>';
+        domString += '</div>';
+    }
+    printToDom("hospital", domString);
+    singleDinoAddEvents();
+    petEvents();
+    deleteEvents();
+    feedEvents();
 }
 
 const printDinos = (dinoArr) => {
@@ -197,7 +222,22 @@ const newDino = (e) => {
     dinos.push(brandNewDino);
     document.getElementById("dino-form").reset();
     document.getElementById("collapseOne").classList.remove("show");
+    buildAllDinos();
+}
+
+const findHospitalDinos = (dinos) => {
+    const hospitalDinos = dinos.filter((x) => x.health > 0 && x.health < 40);
+    hospitalDomStringBuilder(hospitalDinos);
+}
+
+const clearAllDinos = () => {
+    printToDom("kennel", "");
+    printToDom("hospital", "");
+}
+
+const buildAllDinos = () => {
     printDinos(dinos);
+    findHospitalDinos(dinos);
 }
 
 const events = () => {
@@ -206,7 +246,7 @@ const events = () => {
 
 const init = () => {
     events();
-    printDinos(dinos);
+    buildAllDinos();
 }
 
 init();

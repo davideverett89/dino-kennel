@@ -19,6 +19,10 @@ h2 {
     margin: 15px;
 }
 
+#hospital {
+    background-color: red;
+}
+
 .card-separate {
     margin: 15px 0;
 }
