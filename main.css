@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: gray;
+    background-color: white;
 }
 
 h2 {
@@ -21,6 +21,10 @@ h2 {
 
 #hospital {
     background-color: red;
+}
+
+#graveyard {
+    background-color: slategrey;
 }
 
 .card-separate {

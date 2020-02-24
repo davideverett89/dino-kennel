@@ -6,7 +6,7 @@ const dinos = [
         age: 100,
         owner: 'Zoe',
         adventures: [],
-        health: 99,
+        health: 0,
         imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/61vkPO-v8fL._AC_SL1200_.jpg'
     },
     {
@@ -182,6 +182,23 @@ const hospitalDomStringBuilder = (dinoArr) => {
     feedEvents();
 }
 
+const deadDinoDomStringBuilder = (dinoArr) => {
+    let domString = "";
+    for (let i = 0; i < dinoArr.length; i++) {
+        domString += '<div class="col-4 card-separate">';
+        domString +=   `<div id="${dinoArr[i].id}" class="card">`;
+        domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img img-fluid card-img-top dino-photo" alt="Card image cap">`;
+        domString +=       '<div class="card-body">';
+        domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
+        domString +=            '<div><i class="fas fa-skull-crossbones"></i></div>'
+        domString +=       '</div>';
+        domString +=   '</div>';
+        domString += '</div>';
+    }
+    printToDom("graveyard", domString);
+    singleDinoAddEvents();
+}
+
 const printDinos = (dinoArr) => {
     let domString = "";
     for (let i = 0; i < dinoArr.length; i++) {
@@ -230,14 +247,21 @@ const findHospitalDinos = (dinos) => {
     hospitalDomStringBuilder(hospitalDinos);
 }
 
+const findDeadDinos = () => {
+    const deadDinos = dinos.filter((x) => x.health < 1);
+    deadDinoDomStringBuilder(deadDinos);
+}
+
 const clearAllDinos = () => {
     printToDom("kennel", "");
     printToDom("hospital", "");
+    printToDom("graveyard", "");
 }
 
 const buildAllDinos = () => {
     printDinos(dinos);
     findHospitalDinos(dinos);
+    findDeadDinos(dinos);
 }
 
 const events = () => {
