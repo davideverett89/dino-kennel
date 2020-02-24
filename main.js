@@ -6,7 +6,7 @@ const dinos = [
         age: 100,
         owner: 'Zoe',
         adventures: [],
-        health: 0,
+        health: 100,
         imageUrl: 'https://images-na.ssl-images-amazon.com/images/I/61vkPO-v8fL._AC_SL1200_.jpg'
     },
     {
@@ -16,7 +16,7 @@ const dinos = [
         age: 150,
         owner: 'Zoe',
         adventures: [],
-        health: 1,
+        health: 100,
         imageUrl: 'https://www.factsjustforkids.com/images/brontosaurus-excelsus.png'
     },
     {
@@ -26,7 +26,7 @@ const dinos = [
         age: 75,
         owner: 'David',
         adventures: [],
-        health: 45,
+        health: 100,
         imageUrl: 'https://static.turbosquid.com/Preview/2016/08/15__05_40_23/square1.pngCAADFB60-670E-4F7D-A482-9CF6DE52E3A8Zoom.jpg'
     },
     {
@@ -119,6 +119,31 @@ const printToDom = (divId, textToPrint) => {
     selectedDiv.innerHTML = textToPrint;
 }
 
+const adventureTableBuilder = (adventureArr) => {
+    let domString = "";
+    if (adventureArr.length > 0) {
+        domString += '<h2 class="adventures">Dino Adventures:</h2>';
+        domString += '<table class="table"';
+        domString +=    '<thead class="thead-light">';
+        domString +=        '<tr>';
+        domString +=            '<th scope="col">#</th>';
+        domString +=            '<th scope="col">Date</th>';
+        domString +=            '<th scope="col">Type</th>';
+        domString +=        '</tr>';
+        domString +=    '</thead>';
+        domString +=    '<tbody>';
+        for (let i = 0; i < adventureArr.length; i++) {
+            domString +=    '<tr>';
+            domString +=        `<th scope="row">${i + 1}</th>`;
+            domString +=        `<td>${moment(adventureArr[i].date).format('MMMM Do YYYY, h:mm:ss a')}</td>`;
+            domString +=        `<td>${adventureArr[i].title}</td>`;
+            domString +=    '</tr>';
+        }
+        domString +=    '</tbody>';
+        domString += '</table>';
+    }
+    return domString;
+}
 const closeSingleViewEvent = () => {
     printToDom("single-view", "");
     buildAllDinos(dinos);
@@ -127,9 +152,10 @@ const closeSingleViewEvent = () => {
 const viewSingleDino = (e) => {
     const dinoId = e.target.closest(".card").id;
     const selectedDino = dinos.find((x) => dinoId === x.id);
+    let healthColor = selectedDino.health > 40 ? "success" : "danger";
     let domString = "";
-    domString += '<button id="close-single-view" class="btn btn-outline-light"><i class="fas fa-eye"></i></button>';
     domString += '<div class="container">';
+    domString +=    '<button id="close-single-view" class="btn btn-outline-dark"><i class="far fa-times-circle"></i></button>';
     domString +=    '<div class="row">';
     domString +=        '<div class="col-6 card-separate">'
     domString +=            '<div class="card">';
@@ -142,11 +168,12 @@ const viewSingleDino = (e) => {
     domString +=                `<p>Type: ${selectedDino.type}</p>`;
     domString +=                `<p>Age: ${selectedDino.age}</p>`;
     domString +=                `<p>Owner: ${selectedDino.owner}</p>`;
-    domString +=                `<div class="progress">`;
-    domString +=                    `<div class="progress-bar bg-danger" role="progressbar" style="width: ${selectedDino.health}%" aria-valuenow="${selectedDino.health}" aria-valuemin="0" aria-valuemax="100"></div>`;
+    domString +=                `<div id="progress-bar" class="progress">`;
+    domString +=                    `<div class="progress-bar-striped bg-${healthColor}" role="progressbar" style="width: ${selectedDino.health}%" aria-valuenow="${selectedDino.health}" aria-valuemin="0" aria-valuemax="100"></div>`;
     domString +=                `</div>`;
     domString +=            '</div>';
     domString +=        '</div>';
+    domString += adventureTableBuilder(selectedDino.adventures);
     domString +=    '</div>';
     domString += '</div>';
     clearAllDinos();
@@ -210,6 +237,26 @@ const feedEvents = () => {
     }
 }
 
+const addAdventure = (e) => {
+    const dinoId = e.target.closest(".card").id;
+    const dinoPosition = dinos.findIndex((p) => p.id === dinoId);
+    const randomAdventureIndex = Math.floor(Math.random() * adventures.length);
+    const newAdventure = {
+        title: adventures[randomAdventureIndex].title,
+        date: Date.now()
+    }
+    dinos[dinoPosition].adventures.push(newAdventure);
+    dinos[dinoPosition].health -= adventures[randomAdventureIndex].healthHit;
+    buildAllDinos(dinos);
+}
+
+const adventureEvents = () => {
+    const advButtons = document.getElementsByClassName("adv-button");
+    for (let i = 0; i < advButtons.length; i++) {
+        advButtons[i].addEventListener("click", addAdventure);
+    }
+}
+
 const hospitalDomStringBuilder = (dinoArr) => {
     let domString = "";
     for (let i = 0; i < dinoArr.length; i++) {
@@ -218,12 +265,13 @@ const hospitalDomStringBuilder = (dinoArr) => {
         domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img img-fluid card-img-top dino-photo" alt="Card image cap">`;
         domString +=       '<div class="card-body">';
         domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
-        domString +=           `<div class="progress">`;
-        domString +=                `<div class="progress-bar bg-danger" role="progressbar" style="width: ${dinoArr[i].health}%" aria-valuenow="${dinoArr[i].health}" aria-valuemin="0" aria-valuemax="100"></div>`;
+        domString +=           `<div id="progress-bar" class="progress">`;
+        domString +=                `<div class="progress-bar-striped bg-danger" role="progressbar" style="width: ${dinoArr[i].health}%" aria-valuenow="${dinoArr[i].health}" aria-valuemin="0" aria-valuemax="100"></div>`;
         domString +=            `</div>`;
         domString +=            '<button class="btn btn-outline-warning feed-dino"><i class="fas fa-hamburger"></i></button>';
         domString +=            '<button class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
         domString +=            '<button class="btn btn-outline-danger delete-dino"><i class="fas fa-trash-alt"></i></button>';
+        domString +=            '<button class="btn btn-outline-info adv-button"><i class="fas fa-hiking"></i></button>';
         domString +=       '</div>';
         domString +=   '</div>';
         domString += '</div>';
@@ -233,6 +281,7 @@ const hospitalDomStringBuilder = (dinoArr) => {
     petEvents();
     deleteEvents();
     feedEvents();
+    adventureEvents();
 }
 
 const deadDinoDomStringBuilder = (dinoArr) => {
@@ -265,12 +314,13 @@ const printDinos = (dinoArr) => {
         domString +=       `<img src="${dinoArr[i].imageUrl}" class="my-img img-fluid card-img-top dino-photo" alt="Card image cap">`;
         domString +=       '<div class="card-body">';
         domString +=           `<h5 class="card-title">${dinoArr[i].name}</h5>`;
-        domString +=           `<div class="progress">`;
-        domString +=                `<div class="progress-bar bg-danger" role="progressbar" style="width: ${dinoArr[i].health}%" aria-valuenow="${dinoArr[i].health}" aria-valuemin="0" aria-valuemax="100"></div>`;
+        domString +=           `<div id="progress-bar" class="progress">`;
+        domString +=                `<div class="progress-bar-striped bg-success" role="progressbar" style="width: ${dinoArr[i].health}%" aria-valuenow="${dinoArr[i].health}" aria-valuemin="0" aria-valuemax="100"></div>`;
         domString +=            `</div>`;
         domString +=            '<button class="btn btn-outline-warning feed-dino"><i class="fas fa-hamburger"></i></button>';
         domString +=            '<button class="btn btn-outline-dark single-dino"><i class="fas fa-eye"></i></button>';
         domString +=            '<button class="btn btn-outline-danger delete-dino"><i class="fas fa-trash-alt"></i></button>';
+        domString +=            '<button class="btn btn-outline-info adv-button"><i class="fas fa-hiking"></i></button>';
         domString +=       '</div>';
         domString +=   '</div>';
         domString += '</div>';
@@ -280,6 +330,7 @@ const printDinos = (dinoArr) => {
     petEvents();
     deleteEvents();
     feedEvents();
+    adventureEvents();
 }
 
 const newDino = (e) => {
