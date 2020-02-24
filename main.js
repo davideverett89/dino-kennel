@@ -122,7 +122,6 @@ const printToDom = (divId, textToPrint) => {
 const adventureTableBuilder = (adventureArr) => {
     let domString = "";
     if (adventureArr.length > 0) {
-        domString += '<h2 class="adventures">Dino Adventures:</h2>';
         domString += '<table class="table"';
         domString +=    '<thead class="thead-light">';
         domString +=        '<tr>';
@@ -146,16 +145,16 @@ const adventureTableBuilder = (adventureArr) => {
 }
 const closeSingleViewEvent = () => {
     printToDom("single-view", "");
-    buildAllDinos(dinos);
+    $("#singleDinoModal").modal('hide');
+    // buildAllDinos(dinos);
 }
 
 const viewSingleDino = (e) => {
     const dinoId = e.target.closest(".card").id;
     const selectedDino = dinos.find((x) => dinoId === x.id);
-    let healthColor = selectedDino.health > 40 ? "success" : "danger";
+    let healthColor = selectedDino.health >= 40 ? "success" : "danger";
     let domString = "";
     domString += '<div class="container">';
-    domString +=    '<button id="close-single-view" class="btn btn-outline-dark"><i class="far fa-times-circle"></i></button>';
     domString +=    '<div class="row">';
     domString +=        '<div class="col-6 card-separate">'
     domString +=            '<div class="card">';
@@ -163,7 +162,7 @@ const viewSingleDino = (e) => {
     domString +=            '</div>';
     domString +=        '</div>'
     domString +=        '<div class="col-6 card-separate">'
-    domString +=            '<div class="card">';
+    domString +=            '<div class="card d-flex flex-column justify-content-between p-2">';
     domString +=                `<h2>${selectedDino.name}</h2>`;
     domString +=                `<p>Type: ${selectedDino.type}</p>`;
     domString +=                `<p>Age: ${selectedDino.age}</p>`;
@@ -176,7 +175,8 @@ const viewSingleDino = (e) => {
     domString += adventureTableBuilder(selectedDino.adventures);
     domString +=    '</div>';
     domString += '</div>';
-    clearAllDinos();
+    $("#singleDinoModal").modal("show");
+    // clearAllDinos();
     printToDom("single-view", domString);
     document.getElementById("close-single-view").addEventListener("click", closeSingleViewEvent);
 }
