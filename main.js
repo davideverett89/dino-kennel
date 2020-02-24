@@ -157,12 +157,12 @@ const viewSingleDino = (e) => {
     domString += '<div class="container">';
     domString +=    '<div class="row">';
     domString +=        '<div class="col-6 card-separate">'
-    domString +=            '<div class="card">';
+    domString +=            '<div>';
     domString +=                `<img class="my-img" src="${selectedDino.imageUrl}" alt="whatever">`;
     domString +=            '</div>';
     domString +=        '</div>'
     domString +=        '<div class="col-6 card-separate">'
-    domString +=            '<div class="card d-flex flex-column justify-content-between p-2">';
+    domString +=            '<div class="d-flex flex-column justify-content-between p-2">';
     domString +=                `<h2>${selectedDino.name}</h2>`;
     domString +=                `<p>Type: ${selectedDino.type}</p>`;
     domString +=                `<p>Age: ${selectedDino.age}</p>`;
